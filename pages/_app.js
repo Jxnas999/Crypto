@@ -1,7 +1,16 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import Display from "./Components/Display";
+import Hero from "./Components/Hero";
+import Navbar from "./Components/Navbar";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function MyApp() {
+  return (
+    <div className='overflow-hidden'>
+      <Navbar />
+      <Hero />
+      <Display />
+    </div>
+  );
 }
 
-export default MyApp
+export default MyApp;
