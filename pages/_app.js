@@ -1,15 +1,10 @@
 import "../styles/globals.css";
-import Display from "./Components/Display";
-import Hero from "./Components/Hero";
-import Navbar from "./Components/Navbar";
-
-function MyApp() {
+import { AppWrapper } from "./Helper/UserContext";
+function MyApp({ Component, pageProps }) {
   return (
-    <div className='overflow-hidden'>
-      <Navbar />
-      <Hero />
-      <Display />
-    </div>
+    <AppWrapper>
+      <Component {...pageProps} />
+    </AppWrapper>
   );
 }
 

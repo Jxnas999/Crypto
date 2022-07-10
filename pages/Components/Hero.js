@@ -2,8 +2,8 @@ import React from "react";
 import Typed from "react-typed";
 export default function Hero() {
   return (
-    <div className='bg-[#080512] h-screen flex items-center justify-center'>
-      <div className='flex flex-col items-center text-2xl font-bold  md:text-5xl'>
+    <div className='bg-[#080512] h-screen  flex items-center justify-center'>
+      <div className='flex flex-col items-center text-2xl font-bold md:text-5xl'>
         <h1 className='text-white'>Your Cryptocurrency update for</h1>
 
         <Typed
