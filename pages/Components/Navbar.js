@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
+import { UserContext } from "../Helper/UserContext";
+import Link from "next/link";
 export default function nav() {
   const [hamburger, setHamburger] = useState(false);
+  const {user} = useContext(UserContext)
+  console.log(user)
+
   function handleClick() {
     setHamburger(!hamburger);
   }
@@ -14,9 +19,9 @@ export default function nav() {
           Crypto Hero.
         </h1>
         <div className='flex items-center'>
-          <div className='text-white mr-8 flex items-center'>
+          <div className='text-white hidden sm:flex mr-8  items-center'>
             <CgProfile size={30} className='mr-2' />
-            Profile
+            {user.email? user.email : 'Profile'}
           </div>
 
           {hamburger ? (
@@ -43,18 +48,23 @@ export default function nav() {
             : "fixed top-0 left-[-100%] border-4 ease-in-out duration-300 border-[#ffffff] bg-[#ffffff] w-[60%] h-screen shadow-2xl text-2xl md:text-4xl"
         }
       >
-        <h1 className='hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 mt-7 font-bold border-b-4 '>
+      <Link href='/'>
+        <h1 className='hover:cursor-pointer  uppercase hover:text-[#3ca5f6] duration-150  mb-7 mt-7 font-bold border-b-4 '>
           Home
-        </h1>
-        <h1 className='hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
+        </h1></Link>
+        <h1 className='hover:cursor-pointer uppercase  hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
           Crypto
         </h1>
-        <h1 className='hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
+        <h1 className='hover:cursor-pointer uppercase  hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
           Contact
         </h1>
-        <h1 className='hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
-          Login
-        </h1>
+        <Link href='/Components/Watchlist'><h1 className='uppercase hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
+          Watchlist
+        </h1></Link>
+        <Link href='/Components/SignUp'><h1 className='uppercase hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
+          Sign Up 
+        </h1></Link>
+        
       </div>
     </div>
   );

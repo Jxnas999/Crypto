@@ -2,13 +2,12 @@ import React, { useContext, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import Link from "next/link";
-import { useUserContext } from "../Helper/UserContext";
-
+import Navbar from './Navbar'
+import { UserContext } from "../Helper/UserContext";
 export default function SignUp() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const { user, setUser } = useContext(useUserContext);
-
+  const {user, setUser} = useContext(UserContext)
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -17,13 +16,15 @@ export default function SignUp() {
         registerEmail,
         registerPassword
       );
-      setUser(create.user.email);
+     await setUser(create.user.email);
       console.log(user);
     } catch (error) {
       console.log(error.message);
     }
   }
   return (
+    <div>
+    <Navbar/>
     <div className='flex justify-center m-auto min-h-screen bg-[#000000] md:bg-[#0b0a0f] h-screen md:h-full shadow-lg shadow-white'>
       <div className=' md:mt-[10%]  text-[#ffffff] shadow-xl   flex-col flex rounded-xl md:p-40 bg-[#000000]  my-auto'>
         <h1 className='mx-auto text-3xl font-bold shadow-2xl '>REGISTER</h1>
@@ -54,10 +55,11 @@ export default function SignUp() {
             Sign Up
           </button>
         </form>
-        <a className='mx-auto'>
+        <div className='mx-auto'>
           Already have an Account? <Link href='/Components/Login'>Login</Link>
-        </a>
+        </div>
       </div>
+    </div>
     </div>
   );
 }

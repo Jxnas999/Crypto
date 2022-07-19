@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { auth } from "../firebase";
+import Navbar from './Navbar'
+import { UserContext } from "../Helper/UserContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 export default function Login() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [loginUser, setLoginUser] = useState(null);
-
+  const {user, setUser} = useContext(UserContext)
   async function handleSubmit(e) {
     e.preventDefault();
     console.log("test");
@@ -15,12 +16,14 @@ export default function Login() {
         auth,
         loginEmail,
         loginPassword
-      ).then((response) => setLoginUser(response.user.email));
+      ).then((response) => setUser(response.user));
     } catch (error) {
       console.log(error);
     }
   }
   return (
+    <div>
+    <Navbar/>
     <div className='flex justify-center m-auto min-h-screen bg-[#000000] md:bg-[#0b0a0f] h-screen md:h-full shadow-lg shadow-white'>
       <div className=' md:mt-[10%]  text-[#ffffff] shadow-xl   flex-col flex rounded-xl md:p-40 bg-[#000000]  my-auto'>
         <h1 className='mx-auto text-3xl font-bold shadow-2xl '>LOGIN</h1>
@@ -50,12 +53,14 @@ export default function Login() {
             Sign Up
           </button>
         </form>
-        <a className='mx-auto'>
-          Don't have an Account?{" "}
-          <b className='underline'>
-            <Link href='/Components/SignUp'>Register</Link>
-          </b>
-        </a>
+        <div className='mx-auto'>
+          Don't have an Account?
+          
+            <Link className="font-bold" href='/Components/SignUp'>Register</Link>
+          
+        </div>
+      </div>
+
       </div>
     </div>
   );

@@ -1,12 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai'
 import CircularProgress from "@mui/material/CircularProgress";
 import { Sparklines, SparklinesLine } from "react-sparklines";
+import { auth, firebase_db } from "../firebase";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"; 
+import { onAuthStateChanged } from "firebase/auth";
+import { UserContext } from "../Helper/UserContext";
 export default function Display() {
   const [coins, setCoin] = useState(undefined);
   const [search, setSearch] = useState();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(2);
+  const [userID,setUserID] = useState()
+  const {user, setUser} = useContext(UserContext)
+  console.log(user)
+
+  
+
   useEffect(() => {
     const url =
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=true&price_change_percentage=7d";
@@ -19,6 +30,39 @@ export default function Display() {
         console.log(err);
       });
   }, []);
+
+   async function handleWatchlist(item){
+     onAuthStateChanged(auth, user => {
+      const uid = user.uid
+      setUserID(uid)
+      console.log(uid)
+      console.log(item)
+      //Function that takes in the item and uid and stores both in database
+    })
+    try {
+      const docRef =  doc(firebase_db, userID, item);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const like = !docSnap.data().liked
+        await updateDoc(docRef, {
+          liked: like
+        });
+      }
+      else{
+        await setDoc(doc(firebase_db, userID, item), {
+          user: userID,
+          coin: item,
+          liked: true
+          
+        });
+      }
+
+      
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 
   function updatePage() {
     setPage(page + 1);
@@ -62,6 +106,8 @@ export default function Display() {
           <thead className='pt-5 text-lg text-white bg-black border-b shadow-xl sm:text-xl md:text-2xl'>
             <tr className='mb-4'>
               <th className='p-4'>Name</th>
+              <th className='p-4 whitespace-nowrap'></th>
+
               <th className='p-4 whitespace-nowrap'>Price in €</th>
               <th className='p-4 whitespace-nowrap'>Change 24h</th>
               <th className='p-4 whitespace-nowrap'>Market Cap 24h</th>
@@ -85,6 +131,10 @@ export default function Display() {
                       <p className='ml-3 font-semibold text-center'>
                         {item.name}
                       </p>
+                    </td>
+                    <td>
+                    {userID}
+                    <AiOutlineHeart onClick={event => handleWatchlist(item.id)} />
                     </td>
                     <td className='py-2 mt-4'>{item.current_price}€</td>
                     <td
@@ -147,4 +197,3 @@ export default function Display() {
     </div>
   );
 }
-//'#2916F5'
