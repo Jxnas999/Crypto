@@ -7,7 +7,6 @@ import Link from "next/link";
 export default function nav() {
   const [hamburger, setHamburger] = useState(false);
   const {user} = useContext(UserContext)
-  console.log(user)
 
   function handleClick() {
     setHamburger(!hamburger);
