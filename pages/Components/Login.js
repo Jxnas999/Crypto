@@ -10,7 +10,6 @@ export default function Login() {
   const {user, setUser} = useContext(UserContext)
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("test");
     try {
       const user = await signInWithEmailAndPassword(
         auth,
