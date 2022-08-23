@@ -16,6 +16,8 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { UserContext } from "../Helper/UserContext";
+import { ListItemSecondaryAction } from "@mui/material";
+import Watchlist from "./Watchlist";
 export default function Display() {
   const [coins, setCoin] = useState(undefined);
   const [search, setSearch] = useState();
@@ -23,10 +25,6 @@ export default function Display() {
   const [page, setPage] = useState(2);
   const [watchlistItems, setWatchlistItems] = useState();
   const { user, setUser } = useContext(UserContext);
-  const [likedItems, setLikedItems] = useState([]);
-  const [nonLikedItems, setNonLikedItems] = useState([]);
-  const [allCoins, setAllCoins] = useState();
-  const [refreshWatchlist, setRefreshWatchList] = useState(0);
 
   useEffect(() => {
     const url =
@@ -39,7 +37,6 @@ export default function Display() {
       .catch(function (err) {
         console.log(err);
       });
-
     const fetchDatabse = async () => {
       if (user != "Profile") {
         const q = query(
@@ -53,65 +50,28 @@ export default function Display() {
           // doc.data() is never undefined for query doc snapshots
           allLikedItems.push(doc.data());
         });
-        setWatchlistItems(allLikedItems);
+        await setWatchlistItems(allLikedItems);
       }
     };
-
-    async function find() {
-      await fetchDatabse();
+    fetchDatabse();
+    async function watchListUpdate() {
       const allLiked = [];
       const allNonLiked = [];
+      console.log(watchlistItems);
       coins?.map((item) => {
         watchlistItems?.find(
-          (element) => element.coin == item.id && element.liked == true
+          (element) => element.coin.toLowerCase() == item.id.toLowerCase()
         )
           ? allLiked.push({ ...item, liked: true })
           : allNonLiked.push({ ...item, liked: false });
       });
 
       const fullArray = allLiked.concat(allNonLiked);
-      await setAllCoins(fullArray);
-      console.log(allCoins);
+      await setCoin(fullArray);
+      console.log(coins);
     }
-    find();
+    watchListUpdate();
   }, [user]);
-
-  async function handleWatchlist(item) {
-    try {
-      const docRef = doc(firebase_db, user.uid, item);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const like = !docSnap.data().liked;
-
-        //Update Watchlist immediately
-        const findItem = watchlistItems.findIndex(
-          (element) => element.coin == item
-        );
-        if (findItem > -1) {
-          let watchListCopy = watchlistItems;
-          watchListCopy.splice(findItem, 1);
-          setWatchlistItems(watchListCopy);
-          console.log(watchlistItems);
-        }
-        //Update Database
-        await updateDoc(docRef, {
-          liked: like,
-        });
-        setRefreshWatchList(refreshWatchlist++);
-      } else {
-        await setDoc(doc(firebase_db, user.uid, item), {
-          user: user.uid,
-          coin: item,
-          liked: true,
-        });
-        setRefreshWatchList(refreshWatchlist++);
-      }
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }
-
   function updatePage() {
     setPage(page + 1);
   }
@@ -180,17 +140,7 @@ export default function Display() {
                       </p>
                     </td>
                     <td>
-                      {likedItems.length > 1 &&
-                      nonLikedItems.length > 1 &&
-                      likedItems.find((element) => element.id == item.id) ? (
-                        <AiFillHeart
-                          onClick={(event) => handleWatchlist(item.id)}
-                        />
-                      ) : (
-                        <AiOutlineHeart
-                          onClick={(event) => handleWatchlist(item.id)}
-                        />
-                      )}
+                      <Watchlist item={item} user={user} />
                     </td>
                     <td className='py-2 mt-4'>{item.current_price}€</td>
                     <td
