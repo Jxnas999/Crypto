@@ -23,7 +23,6 @@ export default function Display() {
   const [search, setSearch] = useState();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(2);
-  const [watchlistItems, setWatchlistItems] = useState();
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -37,40 +36,6 @@ export default function Display() {
       .catch(function (err) {
         console.log(err);
       });
-    const fetchDatabse = async () => {
-      if (user != "Profile") {
-        const q = query(
-          collection(firebase_db, user.uid),
-          where("liked", "==", true)
-        );
-
-        const querySnapshot = await getDocs(q);
-        let allLikedItems = [];
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          allLikedItems.push(doc.data());
-        });
-        await setWatchlistItems(allLikedItems);
-      }
-    };
-    fetchDatabse();
-    async function watchListUpdate() {
-      const allLiked = [];
-      const allNonLiked = [];
-      console.log(watchlistItems);
-      coins?.map((item) => {
-        watchlistItems?.find(
-          (element) => element.coin.toLowerCase() == item.id.toLowerCase()
-        )
-          ? allLiked.push({ ...item, liked: true })
-          : allNonLiked.push({ ...item, liked: false });
-      });
-
-      const fullArray = allLiked.concat(allNonLiked);
-      await setCoin(fullArray);
-      console.log(coins);
-    }
-    watchListUpdate();
   }, [user]);
   function updatePage() {
     setPage(page + 1);
@@ -96,7 +61,6 @@ export default function Display() {
 
   return (
     <div className='pt-5 font-poppins md:max-w-[70%]  mx-auto h-auto'>
-      <div></div>
       <div className='flex justify-center mb-4 md:justify-end '>
         <input
           autoComplete='off'
