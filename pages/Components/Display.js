@@ -60,7 +60,7 @@ export default function Display() {
   }
 
   return (
-    <div className='pt-5 font-poppins md:max-w-[70%]  mx-auto h-auto'>
+    <div className='h-auto pt-5 mx-auto font-poppins'>
       <div className='flex justify-center mb-4 md:justify-end '>
         <input
           autoComplete='off'

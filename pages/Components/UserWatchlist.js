@@ -10,7 +10,7 @@ import { Sparklines, SparklinesLine } from "react-sparklines";
 export default function UserWatchlist() {
   const { user } = useContext(UserContext);
   const [watchlist, setWatchlist] = useState("");
-  const [coins, setCoins] = useState(undefined);
+  const [coins, setCoins] = useState();
 
   useEffect(() => {
     const fetchDatabse = async () => {
@@ -24,39 +24,33 @@ export default function UserWatchlist() {
         setWatchlist(UserWatchlist);
         //https://api.coingecko.com/api/v3/coins/binancecoin?localization=false
         let tempCoins = [];
-        UserWatchlist.forEach((item) => {
+        await UserWatchlist.forEach((item) => {
           const url = `https://api.coingecko.com/api/v3/coins/${item}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false&sparkline=true`;
           axios
             .get(url)
             .then(async function (response) {
               tempCoins.push(response.data);
+              await setCoins(tempCoins);
             })
             .catch(function (err) {
               console.log(err);
             });
         });
-        setCoins(tempCoins);
       }
     };
     fetchDatabse();
   }, []);
-
   console.log(coins);
+
   return (
     <>
       <Navbar />
-      <div className='pt-5 font-poppins md:max-w-[70%]  mx-auto h-auto'>
-        <div className='flex justify-center mt-8 mb-8 text-2xl sm:text-4xl md:text-5xl font-poppins'>
-          <h1>My Coins</h1>
-        </div>
-
+      <div className='pt-5 font-poppins lg:max-w-[70%]  mx-auto h-auto'>
         <div className='h-auto overflow-x-auto rounded-div'>
           <table className='text-center table-auto md:min-w-full'>
             <thead className='pt-5 text-lg text-white bg-black border-b shadow-xl sm:text-xl md:text-2xl'>
               <tr className='mb-4'>
                 <th className='p-4'>Name</th>
-                <th className='p-4 whitespace-nowrap'></th>
-
                 <th className='p-4 whitespace-nowrap'>Price in €</th>
                 <th className='p-4 whitespace-nowrap'>Change 24h</th>
                 <th className='p-4 whitespace-nowrap'>Market Cap 24h</th>
@@ -66,8 +60,35 @@ export default function UserWatchlist() {
             <tbody className='mt-4'>
               {coins &&
                 coins.map((item) => {
-                  console.log(item);
-                  return <td>{item.name}</td>;
+                  return (
+                    <tr className='text-[#151B54] font-bold text-base text-center shadow-md sm:text-base md:text-lg'>
+                      <td>{item.name}</td>
+                      <td>{item.market_data.current_price.eur}</td>
+                      <td>
+                        {item.market_data.price_change_percentage_24h.toPrecision(
+                          4
+                        )}
+                        %
+                      </td>
+                      <td>
+                        {item.market_data.market_cap_change_percentage_24h}%
+                      </td>
+                      <td className='py-2 w-[150px] h-[100px]'>
+                        <Sparklines
+                          className='mx-auto '
+                          data={item.market_data.sparkline_7d.price}
+                        >
+                          <SparklinesLine
+                            color={
+                              item.market_data.price_change_percentage_7d > 0
+                                ? "green"
+                                : "red"
+                            }
+                          />
+                        </Sparklines>
+                      </td>
+                    </tr>
+                  );
                 })}
             </tbody>
           </table>
@@ -75,4 +96,7 @@ export default function UserWatchlist() {
       </div>
     </>
   );
+}
+
+{
 }
