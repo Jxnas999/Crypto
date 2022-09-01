@@ -1,9 +1,7 @@
-import React, { useState } from "react";
 import Head from "next/head";
 import Hero from "./Components/Hero";
 import Navbar from "./Components/Navbar";
 import Display from "./Components/Display";
-
 export default function Home() {
   return (
     <div>

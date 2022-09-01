@@ -60,7 +60,7 @@ export default function Display() {
   }
 
   return (
-    <div className='h-auto pt-5 mx-auto font-poppins'>
+    <div id='maindisplay' className='h-auto pt-5 mx-auto font-poppins'>
       <div className='flex justify-center mb-4 md:justify-end md:max-w-[85%] '>
         <input
           autoComplete='off'
@@ -72,7 +72,7 @@ export default function Display() {
           }}
         />
       </div>
-      <div className='h-auto overflow-x-auto rounded-div flex justify-center flex-col'>
+      <div className='flex flex-col justify-center h-auto overflow-x-auto rounded-div'>
         <table className='text-center table-auto mx-auto  min-w-[70%]'>
           <thead className='pt-5 text-lg text-white bg-black border-b shadow-xl sm:text-xl md:text-2xl'>
             <tr className='mb-4'>
