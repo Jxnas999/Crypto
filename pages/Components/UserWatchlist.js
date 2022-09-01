@@ -27,7 +27,6 @@ export default function UserWatchlist() {
 
         for (let index = 0; index < UserWatchlist.length; index++) {
           const url = `https://api.coingecko.com/api/v3/coins/${UserWatchlist[index]}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false&sparkline=true`;
-          console.log(url);
           axios
             .get(url)
             .then(async function (response) {
@@ -64,7 +63,6 @@ export default function UserWatchlist() {
             <tbody className='mt-4'>
               {coins &&
                 coins?.map((item) => {
-                  console.log(coins);
                   return (
                     <tr className='text-[#151B54] font-bold text-base text-center shadow-md sm:text-base md:text-lg'>
                       <td className='py-2 ml-4 '>
