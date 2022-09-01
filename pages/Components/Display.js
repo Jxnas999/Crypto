@@ -3,7 +3,7 @@ import axios from "axios";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Sparklines, SparklinesLine } from "react-sparklines";
-import { auth, firebase_db } from "../firebase";
+import { auth, firebase_db } from "../../lib/firebase";
 import {
   collection,
   doc,
@@ -15,7 +15,7 @@ import {
   where,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { UserContext } from "../Helper/UserContext";
+import { UserContext } from "../../lib/UserContext";
 import { ListItemSecondaryAction } from "@mui/material";
 import Watchlist from "./Watchlist";
 export default function Display() {

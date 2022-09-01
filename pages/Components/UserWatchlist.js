@@ -1,9 +1,9 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-import { firebase_db } from "../firebase";
+import { firebase_db } from "../../lib/firebase";
 import axios from "axios";
-import { UserContext } from "../Helper/UserContext";
+import { UserContext } from "../../lib/UserContext";
 import Navbar from "./Navbar";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import Watchlist from "./Watchlist";

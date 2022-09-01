@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import Link from "next/link";
-import { auth } from "../firebase";
+import { auth } from "../../lib/firebase";
 import Navbar from "./Navbar";
-import { UserContext } from "../Helper/UserContext";
+import { UserContext } from "../../lib/UserContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 export default function Login() {
   const [loginEmail, setLoginEmail] = useState("");

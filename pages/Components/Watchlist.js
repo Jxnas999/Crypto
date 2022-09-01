@@ -2,8 +2,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { UserContext } from "../Helper/UserContext";
-import { auth, firebase_db } from "../firebase";
+import { UserContext } from "../../lib/UserContext";
+import { auth, firebase_db } from "../../lib/firebase";
 import {
   collection,
   deleteDoc,

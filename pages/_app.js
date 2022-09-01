@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "../styles/globals.css";
-import { UserContext } from "./Helper/UserContext";
+import { UserContext } from "../lib/UserContext";
 function MyApp({ Component, pageProps }) {
-  const [user, setUser] = useState('Profile')
+  const [user, setUser] = useState("Profile");
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserContext.Provider value={{ user, setUser }}>
       <Component {...pageProps} />
     </UserContext.Provider>
   );

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../../lib/firebase";
 import Link from "next/link";
 import Navbar from "./Navbar";
-import { UserContext } from "../Helper/UserContext";
+import { UserContext } from "../../lib/UserContext";
 export default function SignUp() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");

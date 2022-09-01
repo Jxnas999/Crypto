@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { UserContext } from "../Helper/UserContext";
+import { UserContext } from "../../lib/UserContext";
 import Link from "next/link";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../../lib/firebase";
 export default function nav() {
   const [hamburger, setHamburger] = useState(false);
   const { user, setUser } = useContext(UserContext);
