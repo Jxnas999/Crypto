@@ -8,6 +8,7 @@ export default function SignUp() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const { user, setUser } = useContext(UserContext);
+  const [error, setError] = useState();
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -19,13 +20,16 @@ export default function SignUp() {
       await setUser(create.user.email);
       console.log(user);
     } catch (error) {
-      console.log(error.message);
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 4000);
     }
   }
   return (
     <div>
       <Navbar />
-      <div className='flex justify-center m-auto min-h-screen bg-[#000000] md:bg-[#0b0a0f] h-screen md:h-full shadow-lg shadow-white'>
+      <div className='font-poppins flex justify-center m-auto min-h-screen bg-[#000000] md:bg-[#0b0a0f] h-screen md:h-full shadow-lg shadow-white'>
         <div className=' md:mt-[10%]  text-[#ffffff] shadow-xl   flex-col flex rounded-xl md:p-40 bg-[#000000]  my-auto'>
           <h1 className='mx-auto text-3xl font-bold shadow-2xl '>REGISTER</h1>
           <p className='mx-auto shadow-2xl'>
@@ -57,8 +61,25 @@ export default function SignUp() {
               Sign Up
             </button>
           </form>
-          <div className='mx-auto'>
-            Already have an Account? <Link href='/Components/Login'>Login</Link>
+          {error && (
+            <div class='ease-in duration-500 '>
+              <div
+                class=' fixed w-[200px] lg:w-[400px] right-5 bottom-10 shadow-lg font-bold bg-[#02bcff] rounded-lg p-4 mb-4 text-sm text-ellipsis'
+                role='alert'
+              >
+                <div>
+                  <span class='font-medium'></span> Something went wrong! Try
+                  another Email.
+                </div>
+              </div>
+            </div>
+          )}
+          <div className='mx-auto '>
+            Already have an Account?{" "}
+            <div className='inline-block font-bold'>
+              {" "}
+              <Link href='/Components/Login'>Login</Link>
+            </div>
           </div>
         </div>
       </div>

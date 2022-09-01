@@ -19,19 +19,16 @@ import {
 export default function Watchlist(item) {
   const { user } = useContext(UserContext);
   const [isWatchlisted, setIsWatchlisted] = useState();
-
-  console.log(user.uid);
+  const [open, setOpen] = useState();
   useEffect(() => {
     const fetchDatabse = async () => {
       if (user.uid) {
         const docRef = doc(firebase_db, user.uid, item.item.id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          console.log("Document data:", docSnap.data());
           setIsWatchlisted(true);
         } else {
           // doc.data() will be undefined in this case
-          console.log("No such document!");
         }
       }
     };
@@ -59,6 +56,12 @@ export default function Watchlist(item) {
       } catch (e) {
         console.error("Error adding document: ", e);
       }
+    } else {
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 3000);
+      console.log("test");
     }
   }
   return (
@@ -67,6 +70,18 @@ export default function Watchlist(item) {
         <AiFillHeart onClick={(e) => handleWatchlist(item)} />
       ) : (
         <AiOutlineHeart onClick={(e) => handleWatchlist(item)} />
+      )}
+      {open && (
+        <div class='ease-in duration-500 '>
+          <div
+            class=' fixed w-[200px] lg:w-[400px] right-5 top-5 shadow-lg font-bold bg-[#02bcff] rounded-lg p-4 mb-4 text-sm text-ellipsis'
+            role='alert'
+          >
+            <div>
+              <span class='font-medium'></span> You need to be logged in
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

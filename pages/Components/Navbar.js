@@ -4,10 +4,17 @@ import { AiOutlineClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { UserContext } from "../Helper/UserContext";
 import Link from "next/link";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 export default function nav() {
   const [hamburger, setHamburger] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
+  async function Signout() {
+    await signOut(auth);
+
+    setUser("Profile");
+  }
   function handleClick() {
     setHamburger(!hamburger);
   }
@@ -52,22 +59,24 @@ export default function nav() {
             Home
           </h1>
         </Link>
-        <h1 className='hover:cursor-pointer uppercase  hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
-          Crypto
-        </h1>
-        <h1 className='hover:cursor-pointer uppercase  hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
-          Contact
-        </h1>
+
         <Link href='/Components/UserWatchlist'>
           <h1 className='uppercase hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
             Watchlist
           </h1>
         </Link>
-        <Link href='/Components/SignUp'>
+        <Link href='/Components/Login'>
           <h1 className='uppercase hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '>
-            Sign Up
+            Login
           </h1>
         </Link>
+
+        <h1
+          onClick={Signout}
+          className='uppercase hover:cursor-pointer hover:text-[#3ca5f6] duration-150  mb-7 font-bold border-b-4 '
+        >
+          Sign Out
+        </h1>
       </div>
     </div>
   );
