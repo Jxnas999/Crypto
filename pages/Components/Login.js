@@ -4,7 +4,9 @@ import { auth } from "../../lib/firebase";
 import Navbar from "./Navbar";
 import { UserContext } from "../../lib/UserContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/router";
 export default function Login() {
+  const router = useRouter();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [error, setError] = useState(false);
@@ -16,7 +18,10 @@ export default function Login() {
         auth,
         loginEmail,
         loginPassword
-      ).then((response) => setUser(response.user), setError(false));
+      ).then((response) => setUser(response.user), setError(false))
+      .then(() => {
+        router.push(`/`);
+      })
     } catch (error) {
       setError(true);
       setTimeout(() => {

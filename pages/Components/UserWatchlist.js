@@ -43,7 +43,6 @@ export default function UserWatchlist() {
     };
     fetchDatabse();
   }, [user]);
-
   return (
     <>
       <Navbar />
@@ -64,7 +63,7 @@ export default function UserWatchlist() {
               {coins &&
                 coins?.map((item) => {
                   return (
-                    <tr className='text-[#151B54] font-bold text-base text-center shadow-md sm:text-base md:text-lg'>
+                    <tr className='text-[#151B54] font-bold text-base text-center shadow-md sm:text-base md:text-lg' key={item.name}>
                       <td className='py-2 ml-4 '>
                         <img
                           src={item.image.small}

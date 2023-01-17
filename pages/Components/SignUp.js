@@ -4,7 +4,9 @@ import { auth } from "../../lib/firebase";
 import Link from "next/link";
 import Navbar from "./Navbar";
 import { UserContext } from "../../lib/UserContext";
+import { useRouter } from "next/router";
 export default function SignUp() {
+  const router = useRouter()
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const { user, setUser } = useContext(UserContext);
@@ -17,8 +19,8 @@ export default function SignUp() {
         registerEmail,
         registerPassword
       );
-      await setUser(create.user.email);
-      console.log(user);
+       setUser(create.user.email);
+       router.push(`/`);
     } catch (error) {
       setError(true);
       setTimeout(() => {
